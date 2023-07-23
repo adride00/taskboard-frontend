@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import MuiDrawer from '@mui/material/Drawer'
@@ -12,14 +12,13 @@ import IconButton from '@mui/material/IconButton'
 import Badge from '@mui/material/Badge'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
-import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { mainListItems, secondaryListItems } from '../components/ListItems'
-import { Outlet } from 'react-router-dom'
-
+import { mainListItems } from '../components/ListItems'
+import { Outlet, Navigate } from 'react-router-dom'
+import { userStateContext } from '../context/ContextProvider'
+import UserComponent from '../components/UserComponent'
 const drawerWidth = 240
 
 const AppBar = styled(MuiAppBar, {
@@ -69,7 +68,7 @@ const defaultTheme = createTheme({
 	palette: {
 		mode: 'light',
 		primary: {
-			main: '#ab4dd0',
+			main: '#501B5E',
 		},
 		secondary: {
 			main: '#e486a9',
@@ -92,10 +91,38 @@ const defaultTheme = createTheme({
 })
 
 export default function Dashboard() {
-	const [open, setOpen] = React.useState(true)
+	const { currenUser, userToken } = userStateContext()
+	if (!userToken) {
+		return <Navigate to='/login' />
+	}
+	const [open, setOpen] = useState(true)
 	const toggleDrawer = () => {
 		setOpen(!open)
 	}
+	const token = '4|58YamVBhVmFM4qWNMDhsx23jlFG0aj68tgFhzNp4'
+	const data = {
+		email: 'adride@outlook.com',
+		password: '12345',
+	}
+
+	const login = async () => {
+		const response = await fetch(
+			'https://taskboard-backend-production.up.railway.app/api/login',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			},
+		)
+		const json = await response.json()
+		console.log(json)
+	}
+
+	useEffect(() => {
+		// login()
+	}, [])
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -126,13 +153,9 @@ export default function Dashboard() {
 							noWrap
 							sx={{ flexGrow: 1 }}
 						>
-							Dashboard
+							TaskBoard
 						</Typography>
-						<IconButton color='inherit'>
-							<Badge badgeContent={4} color='secondary'>
-								<NotificationsIcon />
-							</Badge>
-						</IconButton>
+						<UserComponent name={currenUser.name} />
 					</Toolbar>
 				</AppBar>
 				<Drawer variant='permanent' open={open}>
@@ -152,7 +175,6 @@ export default function Dashboard() {
 					<List component='nav'>
 						{mainListItems}
 						<Divider sx={{ my: 1 }} />
-						{secondaryListItems}
 					</List>
 				</Drawer>
 				<Box

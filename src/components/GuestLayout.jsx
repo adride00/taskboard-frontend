@@ -4,8 +4,13 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import imagenLogin from '../assets/login4.png'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
+import { userStateContext } from '../context/ContextProvider'
 function GuestLayout() {
+	const { currenUser, userToken } = userStateContext()
+	if (userToken) {
+		return <Navigate to='/' />
+	}
 	const defaultTheme = createTheme({
 		palette: {
 			mode: 'light',
