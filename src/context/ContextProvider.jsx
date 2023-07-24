@@ -8,10 +8,20 @@ const StateContext = createContext({
 
 export const ContextProvider = ({ children }) => {
 	const [currenUser, setCurrentUser] = useState({
-		name: 'Adrian Campos Madrid',
-		email: 'adr@sd.com',
+		name: '',
+		email: '',
 	})
-	const [userToken, setUserToken] = useState('12345')
+	const [userToken, _setUserToken] = useState(
+		() => localStorage.getItem('token') || '',
+	)
+	const setUserToken = token => {
+		if (token) {
+			localStorage.setItem('token', token)
+		} else {
+			localStorage.removeItem('token')
+		}
+		_setUserToken(token)
+	}
 	return (
 		<StateContext.Provider
 			value={{

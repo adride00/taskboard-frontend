@@ -3,7 +3,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
+import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -60,8 +60,8 @@ function Login() {
 				</Button>
 				<Grid container>
 					<Grid item>
-						<Link href='#' variant='body2'>
-							{"Don't have an account? Sign Up"}
+						<Link to='/signup' variant='body2'>
+							{'No tienes una cuenta? Registrate'}
 						</Link>
 					</Grid>
 				</Grid>
