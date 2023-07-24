@@ -25,7 +25,9 @@ export default function Signup() {
 	const { errors } = formState
 
 	const onSubmit = async datos => {
-		let { data } = await axiosInstance.post('/signup', datos)
+		let { data } = await axiosInstance.post('/signup', datos, {
+			showSuccessAlert: true,
+		})
 		setCurrentUser(data.data)
 		setUserToken(data.access_token)
 	}
