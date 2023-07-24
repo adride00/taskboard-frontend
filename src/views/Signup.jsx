@@ -1,12 +1,17 @@
 import { useState } from 'react'
+import { useState } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { Link } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
+import axiosInstance from '../service/axios'
+import { useForm } from 'react-hook-form'
+import { userStateContext } from '../context/ContextProvider'
 import axiosInstance from '../service/axios'
 import { useForm } from 'react-hook-form'
 import { userStateContext } from '../context/ContextProvider'
@@ -25,7 +30,9 @@ export default function Signup() {
 	const { errors } = formState
 
 	const onSubmit = async datos => {
-		let { data } = await axiosInstance.post('/signup', datos)
+		let { data } = await axiosInstance.post('/signup', datos, {
+			showSuccessAlert: true,
+		})
 		setCurrentUser(data.data)
 		setUserToken(data.access_token)
 	}
