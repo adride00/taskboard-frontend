@@ -8,33 +8,29 @@ import AssignmentIcon from '@mui/icons-material/Assignment'
 import { NavLink } from 'react-router-dom'
 
 const ITEMS_BUTTONS = [
-	
 	{
 		id: 1,
 		icon: <PeopleIcon />,
-		text: 'Users',
+		text: 'Labels',
 	},
 	{
 		id: 2,
 		icon: <PeopleIcon />,
 		text: 'Tasks',
-	}
+	},
 ]
 export const mainListItems = (
 	<React.Fragment>
-		{ITEMS_BUTTONS.map((item) => (
-			<ListItemButton
-
-			key={item.id}
-			>
+		{ITEMS_BUTTONS.map(item => (
+			<ListItemButton key={item.id}>
 				<ListItemIcon>{item.icon}</ListItemIcon>
 				<NavLink
 					style={{ textDecoration: 'none', color: 'inherit' }}
 					to={`/${item.text.toLowerCase()}`}
-					
-				>{item.text}</NavLink>
+				>
+					{item.text}
+				</NavLink>
 			</ListItemButton>
 		))}
 	</React.Fragment>
 )
-
