@@ -4,7 +4,7 @@ import Login from './views/Login'
 import Signup from './views/Signup'
 import GuestLayout from './components/GuestLayout'
 import Labels from './views/Labels'
-
+import Tasks from './views/Tasks'
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -14,8 +14,13 @@ const router = createBrowserRouter([
 				path: '/labels',
 				element: <Labels />,
 			},
+			{
+				path: '/tasks',
+				element: <Tasks />,
+			},
 		],
 	},
+
 	{
 		path: '/',
 		element: <GuestLayout />,
