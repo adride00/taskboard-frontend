@@ -1,11 +1,9 @@
 import * as React from 'react'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import ListSubheader from '@mui/material/ListSubheader'
 import PeopleIcon from '@mui/icons-material/People'
-import AssignmentIcon from '@mui/icons-material/Assignment'
 import { NavLink } from 'react-router-dom'
+import TaskIcon from '@mui/icons-material/Task'
 
 const ITEMS_BUTTONS = [
 	{
@@ -15,7 +13,7 @@ const ITEMS_BUTTONS = [
 	},
 	{
 		id: 2,
-		icon: <PeopleIcon />,
+		icon: <TaskIcon />,
 		text: 'Tasks',
 	},
 ]

@@ -6,24 +6,19 @@ import DataTable from '../components/DataTable'
 import axiosInstance from '../service/axios'
 import Button from '@mui/material/Button'
 
-const VISIBLE_FIELDS = ['id', 'name', 'description', 'action']
+const VISIBLE_FIELDS = ['id', 'title', 'description', 'priority', 'action']
 
 export default function Labels() {
 	const [data, setData] = useState([])
 
 	const getData = async () => {
-		let { data } = await axiosInstance.get('/labels')
+		let { data } = await axiosInstance.get('/tasks')
 		setData(data)
 	}
 
 	useEffect(() => {
 		getData()
 	}, [])
-
-	const handleEdit = id => {
-		// Logic to handle the edit button click, for example, redirecting to edit page
-		console.log('Edit button clicked for ID:', id)
-	}
 
 	const cols = [
 		{ field: 'id', headerName: 'ID', width: 70 },
@@ -33,8 +28,18 @@ export default function Labels() {
 			width: 300,
 		},
 		{
+			field: 'title',
+			headerName: 'Title',
+			width: 200,
+		},
+		{
 			field: 'description',
 			headerName: 'Description',
+			width: 200,
+		},
+		{
+			field: 'priority',
+			headerName: 'Priority',
 			width: 200,
 		},
 		{
@@ -45,11 +50,11 @@ export default function Labels() {
 				const { id } = params.row
 
 				const handleEdit = () => {
-					console.log('Edit button clicked for ID:', id)
+					console.log(id)
 				}
 
 				const handleDelete = () => {
-					console.log('Delete button clicked for ID:', id)
+					console.log(id)
 				}
 				return (
 					<>
@@ -60,7 +65,9 @@ export default function Labels() {
 						>
 							Editar
 						</Button>
-						<Button variant='contained'>Eliminar</Button>
+						<Button onClick={() => handleDelete(id)} variant='contained'>
+							Eliminar
+						</Button>
 					</>
 				)
 			},
@@ -68,7 +75,7 @@ export default function Labels() {
 	]
 	return (
 		<>
-			<PageComponents name={'Labels'} icon={labels}>
+			<PageComponents name={'Tasks'} icon={labels}>
 				<DataTable data={data} fields={VISIBLE_FIELDS} cols={cols} />
 			</PageComponents>
 		</>
