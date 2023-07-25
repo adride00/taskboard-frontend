@@ -22,7 +22,7 @@ function GuestLayout() {
 			},
 			background: {
 				default: '#f1e8f3',
-				paper: '#f1e8f3',
+				paper: 'rgba(197,191,228,0.79)',
 			},
 			error: {
 				main: '#d21e1e',

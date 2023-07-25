@@ -74,8 +74,8 @@ const defaultTheme = createTheme({
 			main: '#e486a9',
 		},
 		background: {
-			default: '#f1e8f3',
-			paper: '#f1e8f3',
+			default: '#8E86AA',
+			paper: '#E8E7EC',
 		},
 		error: {
 			main: '#d21e1e',
