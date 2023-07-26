@@ -1,0 +1,17 @@
+.modal-content {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.buttom-new-task {
+    background-color: #501B5E;
+    border: none;
+}
+
+.buttom-new-task:active {
+    background-color: #501B5E;
+}
+
+.buttom-new-task:hover {
+    background-color: #441552;
+}

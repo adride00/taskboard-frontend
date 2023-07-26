@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Box from '@mui/material/Box';
 import axiosInstance from '../service/axios';
 import { useForm } from 'react-hook-form';
+import "../assets/css/FormTask.css"
 
 
 
@@ -106,7 +107,7 @@ function FormTask() {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow} className='mb-3'>
+            <Button onClick={handleShow} className='mb-3 btn buttom-new-task'>
                 New Task
             </Button>
 
@@ -116,7 +117,7 @@ function FormTask() {
                     <Modal.Header closeButton>
                         <Modal.Title>Create Task</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body >
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Title</Form.Label>
