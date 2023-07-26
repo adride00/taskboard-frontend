@@ -11,7 +11,7 @@ import "../assets/css/FormTask.css"
 
 
 
-function FormTask() {
+function FormTask({ update }) {
 
     const [selectedProject, setSelectedProject] = useState({ name: "", id: 0 });
     const [selectedLabel, setSelectedLabel] = useState({ name: "", id: 0 });
@@ -51,9 +51,6 @@ function FormTask() {
 
             const tasks = await axiosInstance.get('/tasks');
             setDataProject(tasks.data);
-            console.log(tasks.data)
-
-
         } catch (error) {
             console.error("Error fetching tasks:", error);
         }
@@ -87,6 +84,7 @@ function FormTask() {
             });
             getData();
             console.log("New task created!");
+            update()
 
         } catch (error) {
             console.error("Error creating task:", error);
