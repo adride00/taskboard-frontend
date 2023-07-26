@@ -14,6 +14,12 @@ const UserComponent = ({ name }) => {
 		setAnchorEl(null)
 	}
 
+	const handleLogout = () => {
+		localStorage.removeItem('token')
+		localStorage.removeItem('user')
+		window.location.href = '/login'
+	}
+
 	return (
 		<div>
 			<Button color='inherit' onClick={handleMenuOpen}>
@@ -34,9 +40,14 @@ const UserComponent = ({ name }) => {
 				}}
 			>
 				{/* Aquí puedes agregar las opciones que deseas mostrar en el menú desplegable */}
-				<MenuItem onClick={handleMenuClose}>Opción 1</MenuItem>
-				<MenuItem onClick={handleMenuClose}>Opción 2</MenuItem>
-				<MenuItem onClick={handleMenuClose}>Opción 3</MenuItem>
+				<MenuItem
+					onClick={() => {
+						handleMenuClose()
+						handleLogout()
+					}}
+				>
+					Logout
+				</MenuItem>
 			</Menu>
 		</div>
 	)

@@ -1,15 +1,24 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter } from 'react-router-dom'
 import Dashboard from './views/Dashboard'
 import Login from './views/Login'
 import Signup from './views/Signup'
 import GuestLayout from './components/GuestLayout'
 import Labels from './views/Labels'
 import Tasks from './views/Tasks'
+import TaskBoard from './views/TaskBoard'
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Dashboard />,
 		children: [
+			{
+				path: '/taskboard',
+				element: <Navigate to='/' />,
+			},
+			{
+				path: '/',
+				element: <TaskBoard />,
+			},
 			{
 				path: '/labels',
 				element: <Labels />,
