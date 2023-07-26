@@ -12,8 +12,8 @@ import { useForm } from 'react-hook-form';
 
 function FormTask() {
 
-    const [selectedProject, setSelectedProject] = useState('');
-    const [selectedLabel, setSelectedLabel] = useState('');
+    const [selectedProject, setSelectedProject] = useState({ name: "", id: 0 });
+    const [selectedLabel, setSelectedLabel] = useState({ name: "", id: 0 });
     const [selectedUser, setSelectedUser] = useState({ name: "", id: 0 });
 
     const [dataLabels, setDataLabels] = useState([]);
@@ -23,7 +23,9 @@ function FormTask() {
         title: '',
         description: '',
         priority: '',
+        label_id: 1,
         label_name: '',
+        project_id: 1,
         project_name: '',
         status: "active",
         user_id: 1,
@@ -46,6 +48,10 @@ function FormTask() {
             setDataProject(projects.data);
             // console.log(projects.data)
 
+            const tasks = await axiosInstance.get('/tasks');
+            setDataProject(tasks.data);
+            console.log(tasks.data)
+
 
         } catch (error) {
             console.error("Error fetching tasks:", error);
@@ -57,25 +63,26 @@ function FormTask() {
     }, []);
 
     const handleCreateTask = async () => {
-        let us_id = parseInt(selectedUser["id"])
-        let us_name = selectedUser["name"]
-
-        console.log("Project", selectedProject)
-        console.log("Label", selectedLabel)
-        console.log("user id", us_id)
-        console.log("username", us_name)
-
         try {
+
+            const newTaskData = {
+                ...newTask,
+                label_id: parseInt(selectedLabel["id"]),
+                label_name: selectedLabel["name"],
+                project_id: parseInt(selectedProject["id"]),
+                project_name: selectedProject["name"],
+                status: "active",
+                user_id: parseInt(selectedUser["id"]),
+                user_name: selectedUser["name"],
+                deadline: "2023-07-07T00:00:00.0000"
+            }
+
             console.log("creando tarear nueva")
-            await axiosInstance.post('/tasks', newTask);
+            await axiosInstance.post('/tasks', newTaskData);
             setNewTask({
                 title: '',
                 description: '',
                 priority: '',
-                label_name: selectedLabel,
-                project_name: selectedProject,
-                user_id: us_id,
-                user_name: us_name,
             });
             getData();
             console.log("New task created!");
@@ -126,10 +133,13 @@ function FormTask() {
                                 <Form.Label>Select Project</Form.Label>
                                 <Form.Select
                                     aria-label="Default select example"
-                                    value={selectedProject}
-                                    onChange={(event) => setSelectedProject(event.target.value)}>
+                                    value={selectedProject["name"]}
+                                    onChange={(event) => setSelectedProject({
+                                        name: event.target.value,
+                                        id: event.target.options[event.target.selectedIndex].getAttribute('data-id')
+                                    })}>
                                     {dataProject.map((project) =>
-                                        <option value={project.name} key={project.id}>{project.name}</option>
+                                        <option value={project.name} key={project.id} data-id={project.id}>{project.name}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>
@@ -137,10 +147,13 @@ function FormTask() {
                                 <Form.Label>Select Label</Form.Label>
                                 <Form.Select
                                     aria-label="Default select example"
-                                    value={selectedLabel}
-                                    onChange={(event) => setSelectedLabel(event.target.value)}>
+                                    value={selectedLabel["name"]}
+                                    onChange={(event) => setSelectedLabel({
+                                        name: event.target.value,
+                                        id: event.target.options[event.target.selectedIndex].getAttribute('data-id')
+                                    })}>
                                     {dataLabels.map((label) =>
-                                        <option value={label.name} key={label.id} >{label.name}</option>
+                                        <option value={label.name} key={label.id} data-id={label.id}>{label.name}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>
