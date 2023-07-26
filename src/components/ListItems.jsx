@@ -4,7 +4,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import PeopleIcon from '@mui/icons-material/People'
 import { NavLink } from 'react-router-dom'
 import TaskIcon from '@mui/icons-material/Task'
-
+import DashboardIcon from '@mui/icons-material/Dashboard'
 const ITEMS_BUTTONS = [
 	{
 		id: 1,
@@ -18,7 +18,7 @@ const ITEMS_BUTTONS = [
 	},
 	{
 		id: 3,
-		icon: <TaskIcon />,
+		icon: <DashboardIcon />,
 		text: 'TaskBoard',
 	},
 ]

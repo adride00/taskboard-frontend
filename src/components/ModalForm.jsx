@@ -50,7 +50,6 @@ export default function AlertDialogSlide({
 		handleClose()
 	}
 
-	// Function to reset the form data when the modal is closed
 	const handleModalClose = () => {
 		reset()
 		handleClose()
@@ -62,7 +61,7 @@ export default function AlertDialogSlide({
 				open={open}
 				TransitionComponent={Transition}
 				keepMounted
-				onClose={handleModalClose} // Use the new handler that resets the form data
+				onClose={handleModalClose}
 				aria-describedby='alert-dialog-slide-description'
 			>
 				<DialogTitle>{dataEdit ? 'Editar' : 'Crear Nuevo Label'}</DialogTitle>

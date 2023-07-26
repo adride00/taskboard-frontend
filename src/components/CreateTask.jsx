@@ -77,6 +77,9 @@ export default function Labels() {
 						>
 							Editar
 						</Button>
+						<Button onClick={() => handleDelete(id)} variant='contained'>
+							Eliminar
+						</Button>
 					</>
 				)
 			},
@@ -85,6 +88,7 @@ export default function Labels() {
 	return (
 		<>
 			<PageComponents name={'Tasks'} icon={labels}>
+				<FormTask />
 				<DataTable data={data} fields={VISIBLE_FIELDS} cols={cols} />
 			</PageComponents>
 		</>
