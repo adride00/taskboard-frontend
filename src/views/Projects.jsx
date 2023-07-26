@@ -7,7 +7,7 @@ import axiosInstance from '../service/axios'
 import Button from '@mui/material/Button'
 import NewProject from '../components/NewProject'
 
-const VISIBLE_FIELDS = ['id', 'name', 'description','action']
+const VISIBLE_FIELDS = ['id', 'name', 'description', 'action']
 
 export default function Projects() {
 	const [data, setData] = useState([])
@@ -15,10 +15,8 @@ export default function Projects() {
 	const getData = async () => {
 		let { data } = await axiosInstance.get('/projects')
 		let activos = data.filter(item => item.status === 'active')
-        console.log(data)
 		setData(activos)
 	}
-
 
 	useEffect(() => {
 		getData()
@@ -47,35 +45,38 @@ export default function Projects() {
 					console.log('Edit button clicked for ID:', id)
 				}
 
-				const handleDelete = async (id) => {
-					await axiosInstance.put(`/deleteProject/${id}`);
-					getData();
+				const handleDelete = async id => {
+					await axiosInstance.put(`/deleteProject/${id}`)
+					getData()
 				}
-			
+
 				return (
 					<>
 						<Button
 							sx={{ margin: '10px' }}
 							variant='contained'
-							onClick={() => handleEdit(id)}>Editar</Button>
+							onClick={() => handleEdit(id)}
+						>
+							Editar
+						</Button>
 						<Button
-						sx={{ margin: '10px' }}
-						variant='contained' 
-						onClick={() => handleDelete(id)}>Eliminar </Button>
+							sx={{ margin: '10px' }}
+							variant='contained'
+							onClick={() => handleDelete(id)}
+						>
+							Eliminar{' '}
+						</Button>
 					</>
 				)
 			},
 		},
 	]
 
-
-
-
 	return (
 		<>
-			<PageComponents name = {'Projects'} icon ={labels}>
-      			<NewProject getData={getData}/>
-      			<DataTable data={data} fields={VISIBLE_FIELDS} cols ={cols} />
+			<PageComponents name={'Projects'} icon={labels}>
+				<NewProject getData={getData} />
+				<DataTable data={data} fields={VISIBLE_FIELDS} cols={cols} />
 			</PageComponents>
 		</>
 	)

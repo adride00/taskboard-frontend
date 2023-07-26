@@ -6,6 +6,7 @@ import GuestLayout from './components/GuestLayout'
 import Labels from './views/Labels'
 import Tasks from './views/Tasks'
 import TaskBoard from './views/TaskBoard'
+import Projects from './views/Projects'
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
 			{
 				path: '/tasks',
 				element: <Tasks />,
+			},
+			{
+				path: '/projects',
+				element: <Projects />,
 			},
 		],
 	},
