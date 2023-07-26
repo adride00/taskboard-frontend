@@ -5,25 +5,33 @@ import labels from '../assets/icons/labels.svg'
 import DataTable from '../components/DataTable'
 import axiosInstance from '../service/axios'
 import Button from '@mui/material/Button'
-
+import ModalForm from '../components/ModalForm'
+import { set } from 'react-hook-form'
 const VISIBLE_FIELDS = ['id', 'name', 'description', 'action']
 
 export default function Labels() {
 	const [data, setData] = useState([])
+	const [open, setOpen] = useState(false)
+	const [dataEdit, setDataEdit] = useState([])
+	const [isEditing, setIsEditing] = useState(false)
+	const handleClickOpen = () => {
+		setOpen(true)
+	}
+
+	const handleClose = () => {
+		setOpen(false)
+		setDataEdit([])
+	}
 
 	const getData = async () => {
 		let { data } = await axiosInstance.get('/labels')
-		setData(data)
+		let activos = data.filter(item => item.status === 'active')
+		setData(activos)
 	}
 
 	useEffect(() => {
 		getData()
 	}, [])
-
-	const handleEdit = id => {
-		// Logic to handle the edit button click, for example, redirecting to edit page
-		console.log('Edit button clicked for ID:', id)
-	}
 
 	const cols = [
 		{ field: 'id', headerName: 'ID', width: 70 },
@@ -44,12 +52,23 @@ export default function Labels() {
 			renderCell: params => {
 				const { id } = params.row
 
-				const handleEdit = () => {
-					console.log('Edit button clicked for ID:', id)
+				const handleEdit = async () => {
+					let { data: label } = await axiosInstance.get(`/label/${id}`)
+
+					setDataEdit({
+						name: label.data.name,
+						description: label.data.description,
+						id: label.data.id,
+					})
+					handleClickOpen()
+					setIsEditing(true)
 				}
 
-				const handleDelete = () => {
-					console.log('Delete button clicked for ID:', id)
+				const handleDelete = async () => {
+					let { data } = await axiosInstance.put(`/deleteLabel/${id}`, {
+						showSuccessAlert: true,
+					})
+					getData()
 				}
 				return (
 					<>
@@ -60,7 +79,9 @@ export default function Labels() {
 						>
 							Editar
 						</Button>
-						<Button variant='contained'>Eliminar</Button>
+						<Button onClick={() => handleDelete(id)} variant='contained'>
+							Eliminar
+						</Button>
 					</>
 				)
 			},
@@ -69,6 +90,22 @@ export default function Labels() {
 	return (
 		<>
 			<PageComponents name={'Labels'} icon={labels}>
+				<Button
+					variant='outlined'
+					onClick={() => {
+						handleClickOpen()
+						setIsEditing(false)
+					}}
+				>
+					New label
+				</Button>
+				<ModalForm
+					open={open}
+					handleClose={handleClose}
+					getData={getData}
+					dataEdit={dataEdit}
+					isEditing={isEditing}
+				/>
 				<DataTable data={data} fields={VISIBLE_FIELDS} cols={cols} />
 			</PageComponents>
 		</>
