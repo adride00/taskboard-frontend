@@ -16,6 +16,11 @@ const ITEMS_BUTTONS = [
 		icon: <TaskIcon />,
 		text: 'Tasks',
 	},
+	{
+		id: 3,
+		icon: <TaskIcon />,
+		text: 'TaskBoard',
+	},
 ]
 export const mainListItems = (
 	<React.Fragment>

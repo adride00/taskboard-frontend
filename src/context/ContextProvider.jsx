@@ -7,9 +7,13 @@ const StateContext = createContext({
 })
 
 export const ContextProvider = ({ children }) => {
-	const [currenUser, setCurrentUser] = useState({
-		name: '',
-		email: '',
+	const [currenUser, _setCurrentUser] = useState(() => {
+		let user = localStorage.getItem('user')
+		if (user) {
+			return JSON.parse(user)
+		} else {
+			return null
+		}
 	})
 	const [userToken, _setUserToken] = useState(
 		() => localStorage.getItem('token') || '',
@@ -21,6 +25,14 @@ export const ContextProvider = ({ children }) => {
 			localStorage.removeItem('token')
 		}
 		_setUserToken(token)
+	}
+	const setCurrentUser = user => {
+		if (user) {
+			localStorage.setItem('user', JSON.stringify(user))
+		} else {
+			localStorage.removeItem('user')
+		}
+		_setCurrentUser(user)
 	}
 	return (
 		<StateContext.Provider
