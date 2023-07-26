@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,30 +7,57 @@ import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '../service/axios';
 
-export default function NewProject({ getData }) {
+export default function NewProject({ getData, editingData }) {
   const [showForm, setShowForm] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [isEditing, setIsEditing] = useState(false);
 
-  const onSubmit = async datos => {
-    await axiosInstance.post('/projects', datos, {
-      showSuccessAlert: true,
-    });
+  useEffect(() => {
+    if (editingData) {
+      setIsEditing(true);
+      setShowForm(true);
+      reset(editingData);
+    } else {
+      setIsEditing(false);
+      reset();
+    }
+  }, [editingData, reset]);
+
+  const onSubmit = async (datos) => {
+    if (isEditing) {
+      await axiosInstance.put(`/projects/${editingData.id}`, datos, {
+        showSuccessAlert: true,
+      });
+    } else {
+      await axiosInstance.post('/projects', datos, {
+        showSuccessAlert: true,
+      });
+    }
+
     getData();
-    setShowForm(false); // Oculta el formulario después de enviar los datos
+    setShowForm(false);
+    setIsEditing(false);
+    reset();
+  };
+
+  const handleFormToggle = () => {
+    setShowForm(!showForm);
+    setIsEditing(false);
+    reset({}); // vaciar formulario
   };
 
   return (
     <>
       {!showForm ? (
-        <Button variant='contained' onClick={() => setShowForm(true)}>
+        <Button variant='contained' onClick={handleFormToggle}>
           New Project
         </Button>
       ) : (
         <Box>
           <Typography component='h1' variant='h5'>
-            New Project
+            {isEditing ? 'Edit Project' : 'New Project'}
           </Typography>
-          {/* Resto del formulario */}
+        
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={5}>
               <Grid item xs={5}>
@@ -62,11 +89,11 @@ export default function NewProject({ getData }) {
               </Grid>
             </Grid>
             <Button type='submit' variant='contained' sx={{ mt: 2 }}>
-              Enviar
+              {isEditing ? 'Guardar Cambios' : 'Enviar'}
             </Button>
           </form>
-          <Button variant='contained' onClick={() => setShowForm(false)} sx={{ mt: 2 }}>
-            Cerrar
+          <Button variant='contained' onClick={handleFormToggle} sx={{ mt: 2 }}>
+            Descartar
           </Button>
         </Box>
       )}
