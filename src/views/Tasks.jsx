@@ -5,6 +5,10 @@ import labels from '../assets/icons/labels.svg'
 import DataTable from '../components/DataTable'
 import axiosInstance from '../service/axios'
 import Button from '@mui/material/Button'
+import CreateTask from "../components/CreateTask"
+import Example from '../components/CreateTask'
+import FormTask from '../components/CreateTask'
+
 
 const VISIBLE_FIELDS = ['id', 'title', 'description', 'priority', 'action']
 
@@ -50,11 +54,20 @@ export default function Labels() {
 				const { id } = params.row
 
 				const handleEdit = () => {
-					console.log(id)
+					console.log(id, "edit")
 				}
 
-				const handleDelete = () => {
-					console.log(id)
+				const handleDelete = async (id) => {
+					try {
+						await fetch(`/tasks/${id}`, {
+							method: 'PUT',
+						});
+
+						setData(prevData => prevData.filter(task => task.id !== id));
+						console.log(id, "Borrar")
+					} catch (error) {
+						console.error("Error borrando tarea:", error);
+					}
 				}
 				return (
 					<>
@@ -76,6 +89,7 @@ export default function Labels() {
 	return (
 		<>
 			<PageComponents name={'Tasks'} icon={labels}>
+				<FormTask />
 				<DataTable data={data} fields={VISIBLE_FIELDS} cols={cols} />
 			</PageComponents>
 		</>
