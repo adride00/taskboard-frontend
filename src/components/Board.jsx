@@ -4,6 +4,12 @@ import axiosInstance from '../service/axios'
 
 function App() {
 	const [data, setData] = useState([])
+	const [colors, setColors] = useState({
+		pendiente: '#ECA697 ',
+		realizando: '#F2EBA5',
+		finalizada: '#438714',
+	})
+
 	const [columns, setColumns] = useState({
 		['pendientes']: {
 			name: 'Pendientes',
@@ -19,7 +25,9 @@ function App() {
 		},
 	})
 	const getData = async () => {
-		let { data } = await axiosInstance.get('/filterByUser/1')
+		let { data } = await axiosInstance.get('/filterByUser/1', {
+			showErrorAlert: true,
+		})
 		setData(data)
 	}
 
@@ -35,6 +43,7 @@ function App() {
 	}, [])
 
 	useEffect(() => {
+		if (!data) return
 		let pendientes = data.filter(
 			item => item.status === 'active' || item.status === 'pendientes',
 		)
@@ -42,13 +51,13 @@ function App() {
 		let finalizada = data.filter(item => item.status === 'finalizada')
 		// convertir el id en string
 		let pendientes2 = pendientes.map(item => {
-			return { ...item, id: item.id.toString() }
+			return { ...item, id: item.id.toString(), colorStatus: colors.pendiente }
 		})
 		let enProceso2 = enProceso.map(item => {
-			return { ...item, id: item.id.toString() }
+			return { ...item, id: item.id.toString(), colorStatus: colors.realizando }
 		})
 		let finalizada2 = finalizada.map(item => {
-			return { ...item, id: item.id.toString() }
+			return { ...item, id: item.id.toString(), colorStatus: colors.finalizada }
 		})
 		setColumns({
 			['pendientes']: {
@@ -157,14 +166,13 @@ function App() {
 																			padding: 16,
 																			margin: '0 0 8px 0',
 																			minHeight: '50px',
-																			backgroundColor: snapshot.isDragging
-																				? '#263B4A'
-																				: '#456C86',
+																			backgroundColor: item.colorStatus,
 																			color: 'white',
 																			...provided.draggableProps.style,
 																		}}
 																	>
 																		{item.title}
+																		<div></div>
 																	</div>
 																)
 															}}
