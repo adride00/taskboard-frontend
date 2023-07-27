@@ -28,8 +28,8 @@ function App() {
 		},
 	})
 	const getData = async () => {
-		let userId = localStorage.getItem('user')
-		let { data } = await axiosInstance.get(`/filterByUser/${userId}`, {
+		let user = JSON.parse(localStorage.getItem('user'))
+		let { data } = await axiosInstance.get(`/filterByUser/${user.id}`, {
 			showErrorAlert: true,
 		})
 		if (!data) return setData([])
