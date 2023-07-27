@@ -3,6 +3,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import axiosInstance from '../service/axios'
 import { Chip, Divider, Stack, Typography } from '@mui/material'
 import BookmarksIcon from '@mui/icons-material/Bookmarks'
+import conffeti from 'canvas-confetti'
+
 function App() {
 	const [data, setData] = useState([])
 	const [colors, setColors] = useState({
@@ -26,9 +28,11 @@ function App() {
 		},
 	})
 	const getData = async () => {
-		let { data } = await axiosInstance.get('/filterByUser/1', {
+		let userId = localStorage.getItem('user')
+		let { data } = await axiosInstance.get(`/filterByUser/${userId}`, {
 			showErrorAlert: true,
 		})
+		if (!data) return setData([])
 		setData(data)
 	}
 
@@ -99,10 +103,13 @@ function App() {
 				},
 			})
 
-			// obtener el id del array de objetos de destItems y convertirlo en number, pero tomando el id del elemento que se movio
 			let idNumber = Number(destItems[destination.index].id)
 
 			updateStatus(idNumber, destination.droppableId)
+			if (destination.droppableId === 'finalizada')
+				conffeti({
+					particleCount: 200,
+				})
 		} else {
 			const column = columns[source.droppableId]
 			const copiedItems = [...column.items]

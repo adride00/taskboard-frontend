@@ -101,30 +101,6 @@ export default function Dashboard() {
 	const toggleDrawer = () => {
 		setOpen(!open)
 	}
-	const token = '4|58YamVBhVmFM4qWNMDhsx23jlFG0aj68tgFhzNp4'
-	const data = {
-		email: 'adride@outlook.com',
-		password: '12345',
-	}
-
-	const login = async () => {
-		const response = await fetch(
-			'https://taskboard-backend-production.up.railway.app/api/login',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			},
-		)
-		const json = await response.json()
-		console.log(json)
-	}
-
-	useEffect(() => {
-		// login()
-	}, [])
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
