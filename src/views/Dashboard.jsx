@@ -92,9 +92,11 @@ const defaultTheme = createTheme({
 
 export default function Dashboard() {
 	const { currenUser, userToken } = userStateContext()
+
 	if (!userToken) {
 		return <Navigate to='/login' />
 	}
+
 	const [open, setOpen] = useState(true)
 	const toggleDrawer = () => {
 		setOpen(!open)

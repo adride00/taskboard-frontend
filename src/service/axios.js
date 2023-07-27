@@ -1,11 +1,14 @@
 import axios from 'axios'
 import router from '../router'
 import Swal from 'sweetalert2'
+
 const axiosInstance = axios.create({
 	baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
 	timeout: 10000,
 })
+
 let configs
+
 axiosInstance.interceptors.request.use(config => {
 	configs = config
 	const token = localStorage.getItem('token')
@@ -28,7 +31,7 @@ axiosInstance.interceptors.response.use(
 		return response
 	},
 	error => {
-		console.log(error)
+		console.log(error, 'error')
 		if (configs.showErrorAlert)
 			Swal.fire({
 				icon: 'error',
@@ -36,7 +39,7 @@ axiosInstance.interceptors.response.use(
 			})
 		if (error.response.status === 401) {
 			localStorage.removeItem('token')
-			router.navigate(['/login'])
+			localStorage.removeItem('user')
 			return error
 		}
 

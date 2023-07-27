@@ -5,10 +5,12 @@ import labels from '../assets/icons/labels.svg'
 import DataTable from '../components/DataTable'
 import axiosInstance from '../service/axios'
 import Button from '@mui/material/Button'
+
 import CreateTask from "../components/CreateTask"
 import Example from '../components/CreateTask'
 import FormTask from '../components/CreateTask'
 import { json } from 'react-router-dom'
+
 
 
 const VISIBLE_FIELDS = ['id', 'title', 'description', 'priority', 'action']
@@ -56,6 +58,7 @@ export default function Labels() {
 				const { id } = params.row
 
 				const handleEdit = () => {
+
 					console.log(id, "edit")
 				}
 
@@ -64,6 +67,7 @@ export default function Labels() {
 						showSuccessAlert: true,
 					})
 					getData()
+
 				}
 				return (
 					<>
@@ -73,9 +77,6 @@ export default function Labels() {
 							onClick={() => handleEdit(id)}
 						>
 							Editar
-						</Button>
-						<Button onClick={() => handleDelete(id)} variant='contained'>
-							Eliminar
 						</Button>
 					</>
 				)
