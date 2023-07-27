@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import axiosInstance from '../service/axios'
-
+import { Chip, Divider, Stack, Typography } from '@mui/material'
+import BookmarksIcon from '@mui/icons-material/Bookmarks'
 function App() {
 	const [data, setData] = useState([])
 	const [colors, setColors] = useState({
 		pendiente: '#ECA697 ',
-		realizando: '#F2EBA5',
+		realizando: '#ada07b',
 		finalizada: '#438714',
 	})
 
@@ -162,6 +163,7 @@ function App() {
 																		{...provided.draggableProps}
 																		{...provided.dragHandleProps}
 																		style={{
+																			borderRadius: '10px',
 																			userSelect: 'none',
 																			padding: 16,
 																			margin: '0 0 8px 0',
@@ -171,8 +173,36 @@ function App() {
 																			...provided.draggableProps.style,
 																		}}
 																	>
-																		{item.title}
-																		<div></div>
+																		<Typography
+																			sx={{
+																				width: '100%',
+																				whiteSpace: 'nowrap',
+																				overflow: 'hidden',
+																				textOverflow: 'ellipsis',
+																			}}
+																			component='div'
+																			variant='h6'
+																		>
+																			{item.title}
+																		</Typography>
+																		<Divider variant='middle' />
+																		<Typography
+																			variant='subtitle1'
+																			color='text.secondary'
+																			component='div'
+																		>
+																			{item.description}
+																		</Typography>
+
+																		<Divider variant='middle' />
+
+																		<Stack direction='row' spacing={1}>
+																			<Chip
+																				icon={<BookmarksIcon />}
+																				label={item.label_name}
+																				variant='outlined'
+																			/>
+																		</Stack>
 																	</div>
 																)
 															}}
