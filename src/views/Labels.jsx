@@ -34,7 +34,7 @@ export default function Labels() {
 	}, [])
 
 	const cols = [
-		{ field: 'id', headerName: 'ID', width: 70 },
+		{ field: 'id', headerName: 'ID', width: 170 },
 		{
 			field: 'name',
 			headerName: 'Name',
@@ -43,12 +43,12 @@ export default function Labels() {
 		{
 			field: 'description',
 			headerName: 'Description',
-			width: 200,
+			width: 400,
 		},
 		{
 			field: 'action',
 			headerName: 'Action',
-			width: 400,
+			width: 450,
 			renderCell: params => {
 				const { id } = params.row
 
