@@ -53,7 +53,7 @@ function FormTask({ update }) {
 			}
 
 			console.log(newTaskData)
-			// await axiosInstance.post('/tasks', newTaskData)
+			await axiosInstance.post('/tasks', newTask)
 			setNewTask({
 				title: '',
 				description: '',
