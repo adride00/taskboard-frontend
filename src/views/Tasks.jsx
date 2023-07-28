@@ -18,8 +18,7 @@ export default function Labels() {
 
 	const getData = async () => {
 		let { data } = await axiosInstance.get('/tasks')
-		let activos = data.filter(item => item.status === 'active')
-		setData(activos)
+		setData(data)
 	}
 
 	useEffect(() => {
